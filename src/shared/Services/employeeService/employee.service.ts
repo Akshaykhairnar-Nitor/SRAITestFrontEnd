@@ -11,8 +11,5 @@ export class EmployeeService {
     const url = `https://localhost:5001/api/GetUserDetails/UserId?UserId=${UserId}`;
     return this.http.get(url).pipe(map((x) => x));
   };
-  getTimeSheetDetails= (EmpId) => {
-    const url = `https://localhost:5001/api/GetEmployeeWorkDetails/EmpId?EmpId=${EmpId}`;
-    return this.http.get(url).pipe(map((x) => x));
-  };
+ 
 }

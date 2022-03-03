@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
           if (data&& data['status']==='OK') {
             localStorage.setItem('isLoggedin', 'true');
             localStorage.setItem('LoggedinUser', JSON.stringify(data));
-            this.router.navigate(['/home']);
+            this.router.navigate(['/employeeLayout/employeeDetails']);
           } else {
             this.isLoggedIn=true;
             this.loading = false;

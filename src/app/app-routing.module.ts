@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/shared/guard/auth.guard';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-
+import { LoginComponent } from './authentication/login/login.component';
 
 const routes: Routes = [
   {
@@ -15,9 +13,15 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'home',
-    component: HomeComponent, canActivate: [AuthGuard]
-  }
+    path: 'employeeLayout',
+    loadChildren: () =>
+      import('./employeeLayout/employee-layout.module').then(
+        (m) => m.EmployeeLayoutModule
+      ),
+    canActivate: [AuthGuard],
+  },
+
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
