@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import { TimesheetDetailsService } from 'src/shared/Services/timesheetDetails/timesheet-details.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-timesheet-details',
   templateUrl: './timesheet-details.component.html',
   styleUrls: ['./timesheet-details.component.scss'],
 })
-export class TimesheetDetailsComponent implements OnInit {
+export class TimesheetDetailsComponent implements OnInit, OnDestroy {
   loggedInuserDetails: any = [];
   AllTimeSheetData: any = [];
   SelectedDate: Date;
@@ -19,24 +20,20 @@ export class TimesheetDetailsComponent implements OnInit {
   dataSource: any = [];
   displayedColumns: string[] = ['projectName', 'taskDetails', 'date', 'time'];
   totalTime: any = [];
+  getTimeSheetDetailsSubscription: Subscription;
 
   constructor(
     private router: Router,
     private timesheetDetailsService: TimesheetDetailsService
   ) {}
   ngOnInit(): void {
-    if (localStorage.getItem('LoggedinUser')) {
-      this.loggedInuserDetails = JSON.parse(
-        localStorage.getItem('LoggedinUser')
-      );
-      this.EmpId = this.loggedInuserDetails.empId;
-      this.getTimeSheetDetails(this.EmpId);
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.loggedInuserDetails = JSON.parse(localStorage.getItem('LoggedinUser'));
+    this.EmpId = this.loggedInuserDetails.empId;
+    this.getTimeSheetDetails(this.EmpId);
   }
 
   getTimeSheetDetails = (empId) => {
+    this.getTimeSheetDetailsSubscription
     this.timesheetDetailsService
       .getTimeSheetDetails(empId)
       .subscribe((response) => {
@@ -102,4 +99,12 @@ export class TimesheetDetailsComponent implements OnInit {
       this.noChartData = true;
     }
   };
+  ngOnDestroy() {
+    this.getTimeSheetDetailsSubscription
+      ? this.getTimeSheetDetailsSubscription.unsubscribe()
+      : null;
+  }
+  trackByFn(item) {
+    return item.id; // unique id corresponding to the item
+  }
 }

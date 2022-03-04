@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class LoginService {
       userName: username,
       password: password
     };
-    const url = `https://localhost:5001/api/login`;
+    const url = `${environment.employeeUrl}api/login`;
     return this.http.post(url, data).pipe(map((x) => x));
   }
 }

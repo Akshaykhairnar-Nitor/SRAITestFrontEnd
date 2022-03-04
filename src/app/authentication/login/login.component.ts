@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { LoginService } from 'src/shared/Services/loginService/login.service';
 
-// import { AccountService, AlertService } from '@app/_services';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,18 +29,15 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
     });
 
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  // convenience getter for easy access to form fields
   get f() {
     return this.form.controls;
   }
 
   onSubmit() {
     this.submitted = true;
-      // stop here if form is invalid
     if (this.form.invalid) {
       return;
     }

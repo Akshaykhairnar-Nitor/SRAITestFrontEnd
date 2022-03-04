@@ -20,7 +20,7 @@
                 (ngModelChange)="onChange(SelectedDate, SelectedProject)"
               >
                 <mat-option
-                  *ngFor="let data of allProjectList"
+                  *ngFor="let data of allProjectList;trackBy: trackByFn;"
                   [value]="data"
                   >{{ data }}</mat-option
                 >
