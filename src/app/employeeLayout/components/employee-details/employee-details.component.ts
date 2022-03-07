@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {MatSort} from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/shared/Services/employeeService/employee.service';
+import {  MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-employee-details',
@@ -21,17 +23,23 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   ];
   details: any = [];
   empDetails: any = [];
+  @ViewChild(MatSort) sort: MatSort;
+
   getEmployeeDetailsSubscription: Subscription;
 
   constructor(
     private router: Router,
-    private employeeService: EmployeeService
-  ) {}
+    private employeeService: EmployeeService   
+  ) {  }
 
   ngOnInit(): void {
     this.loggedInuserDetails = JSON.parse(localStorage.getItem('LoggedinUser'));
     this.UserId = this.loggedInuserDetails.userId;
     this.getEmployeeDetails(this.UserId);
+  }
+  
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
   getEmployeeDetails = (userId) => {
     this.getEmployeeDetailsSubscription = this.employeeService
@@ -51,12 +59,18 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
             data.push(tabledata);
           });
           this.dataSource = data;
+          this.dataSource = new MatTableDataSource(data);
+
         }
       });
   };
   openTimeSheet = () => {
     this.router.navigate(['employeeLayout/timesheet']);
   };
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
   ngOnDestroy() {
     this.getEmployeeDetailsSubscription
       ? this.getEmployeeDetailsSubscription.unsubscribe()

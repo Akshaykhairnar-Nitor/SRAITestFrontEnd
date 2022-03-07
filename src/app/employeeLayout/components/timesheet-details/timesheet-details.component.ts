@@ -1,15 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import { TimesheetDetailsService } from 'src/shared/Services/timesheetDetails/timesheet-details.service';
 import { Subscription } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-timesheet-details',
   templateUrl: './timesheet-details.component.html',
   styleUrls: ['./timesheet-details.component.scss'],
 })
-export class TimesheetDetailsComponent implements OnInit, OnDestroy {
+export class TimesheetDetailsComponent implements OnInit,AfterViewInit , OnDestroy {
   loggedInuserDetails: any = [];
   AllTimeSheetData: any = [];
   SelectedDate: Date;
@@ -21,6 +23,7 @@ export class TimesheetDetailsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['projectName', 'taskDetails', 'date', 'time'];
   totalTime: any = [];
   getTimeSheetDetailsSubscription: Subscription;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private router: Router,
@@ -29,6 +32,9 @@ export class TimesheetDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loggedInuserDetails = JSON.parse(localStorage.getItem('LoggedinUser'));
     this.EmpId = this.loggedInuserDetails.empId;
+  }
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
     this.getTimeSheetDetails(this.EmpId);
   }
 
@@ -55,6 +61,8 @@ export class TimesheetDetailsComponent implements OnInit, OnDestroy {
             data.push(tabledata);
           });
           this.dataSource = data;
+          this.dataSource = new MatTableDataSource(data);
+          this.showAllData();
         }
       });
   };
@@ -99,6 +107,10 @@ export class TimesheetDetailsComponent implements OnInit, OnDestroy {
       this.noChartData = true;
     }
   };
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
   ngOnDestroy() {
     this.getTimeSheetDetailsSubscription
       ? this.getTimeSheetDetailsSubscription.unsubscribe()
