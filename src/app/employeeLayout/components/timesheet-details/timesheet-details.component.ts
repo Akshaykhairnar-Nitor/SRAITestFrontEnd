@@ -26,12 +26,10 @@ export class TimesheetDetailsComponent implements OnInit,AfterViewInit , OnDestr
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private router: Router,
     private timesheetDetailsService: TimesheetDetailsService
   ) {}
   ngOnInit(): void {
-    this.loggedInuserDetails = JSON.parse(localStorage.getItem('LoggedinUser'));
-    this.EmpId = this.loggedInuserDetails.empId;
+    this.EmpId = localStorage.getItem('EmpId');
   }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

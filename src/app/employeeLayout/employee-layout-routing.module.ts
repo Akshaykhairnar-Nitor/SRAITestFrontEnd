@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from 'src/shared/guard/auth.guard';
 import { EmployeeDetailsComponent } from './components/employee-details/employee-details.component';
 import { TimesheetDetailsComponent } from './components/timesheet-details/timesheet-details.component';
 import { EmployeeLayoutComponent } from './employee-layout.component';
+import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
   {
@@ -13,12 +13,12 @@ const routes: Routes = [
       {
         path: 'employeeDetails',
         component: EmployeeDetailsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [MsalGuard],
       },
       {
         path: 'timesheet',
         component: TimesheetDetailsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [MsalGuard],
       },
     ],
   },

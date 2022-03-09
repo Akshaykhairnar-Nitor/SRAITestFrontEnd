@@ -22,7 +22,7 @@ export class InterceptorService {
     if (!excludesArr.find((x) => req.url.includes(x))) {
       const idToken =
         localStorage && localStorage.getItem('LoggedinUser')
-          ? JSON.parse(localStorage.getItem('LoggedinUser')).token
+          ? localStorage.getItem('LoggedinUser')
           : null;
       if (idToken) {
         const cloned = req.clone({
@@ -32,8 +32,7 @@ export class InterceptorService {
           <any>catchError((error) => {
             if (error instanceof HttpErrorResponse && error.status === 401) {
               this.router.navigate(['/login']);
-              localStorage.removeItem('isLoggedin');
-              localStorage.removeItem('LoggedinUser');
+              localStorage.clear();
             } else {
               return error;
             }

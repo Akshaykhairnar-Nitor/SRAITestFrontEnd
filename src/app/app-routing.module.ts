@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { MsalGuard } from '@azure/msal-angular';
 import { AuthGuard } from 'src/shared/guard/auth.guard';
 import { LoginComponent } from './authentication/login/login.component';
 
@@ -9,7 +10,7 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'login',
+    path: 'home',
     component: LoginComponent,
   },
   {
@@ -18,7 +19,9 @@ const routes: Routes = [
       import('./employeeLayout/employee-layout.module').then(
         (m) => m.EmployeeLayoutModule
       ),
-    canActivate: [AuthGuard],
+      canActivate: [
+        MsalGuard
+      ]
   },
 
   { path: '**', redirectTo: '' },

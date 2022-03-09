@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 export class EmployeeService {
   constructor(private http: HttpClient) {}
 
-  getEmployeeDetails = (UserId) => {
-    const url = `${environment.employeeUrl}api/GetUserDetails/UserId?UserId=${UserId}`;
+  getEmployeeDetails = (UserName) => {
+    const url = `${environment.employeeUrl}api/GetUserDetails/UserName?UserName=${UserName}`;
     return this.http.get(url).pipe(map((x) => x));
   };
  

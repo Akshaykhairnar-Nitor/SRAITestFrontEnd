@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {MatSort} from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/shared/Services/employeeService/employee.service';
-import {  MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-employee-details',
@@ -12,7 +12,7 @@ import {  MatTableDataSource } from '@angular/material/table';
 })
 export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   loggedInuserDetails: any;
-  UserId: string;
+  UserName: string;
   EmployeeDetails: any = [];
   dataSource: any = [];
   displayedColumns: string[] = [
@@ -29,21 +29,20 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private employeeService: EmployeeService   
-  ) {  }
+    private employeeService: EmployeeService
+  ) {}
 
   ngOnInit(): void {
-    this.loggedInuserDetails = JSON.parse(localStorage.getItem('LoggedinUser'));
-    this.UserId = this.loggedInuserDetails.userId;
-    this.getEmployeeDetails(this.UserId);
+    this.UserName = localStorage.getItem('UserName');
+    this.getEmployeeDetails(this.UserName);
   }
-  
+
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
-  getEmployeeDetails = (userId) => {
+  getEmployeeDetails = (username) => {
     this.getEmployeeDetailsSubscription = this.employeeService
-      .getEmployeeDetails(userId)
+      .getEmployeeDetails(username)
       .subscribe((response) => {
         if (response && response[0]) {
           this.details = response;
@@ -60,6 +59,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
           });
           this.dataSource = data;
           this.dataSource = new MatTableDataSource(data);
+          localStorage.setItem('EmpId', response[0].empId);
 
         }
       });

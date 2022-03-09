@@ -9,12 +9,17 @@ import { environment } from 'src/environments/environment';
 export class LoginService {
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string) {
-    let data = {
-      userName: username,
-      password: password
-    };
-    const url = `${environment.employeeUrl}api/login`;
-    return this.http.post(url, data).pipe(map((x) => x));
+  // login(username: string, password: string) {
+  //   let data = {
+  //     userName: username,
+  //     password: password
+  //   };
+  //   const url = `${environment.employeeUrl}api/login`;
+  //   return this.http.post(url, data).pipe(map((x) => x));
+  // }
+
+  userDetails(username: string){
+    const url = `${environment.employeeUrl}api/getUserDetails${username}`;
+    return this.http.get(url).pipe(map((x) => x));
   }
 }
