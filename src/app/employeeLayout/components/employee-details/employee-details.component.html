@@ -1,0 +1,143 @@
+<div class="col-sm-12">
+  <mat-card>
+    <mat-card-header class="header_Card">
+      <mat-card-title class="titleSize">Employee Dashboard</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="dividerPad">
+      <div class="row">
+        <div class="col-sm-6">
+          <mat-card>
+            <mat-card-header class="header_Card">
+              <mat-card-title class="titleSize"
+                >Employee Details</mat-card-title
+              >
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content class="dividerPad">
+              <div class="row">
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Employee Id</mat-label>
+                    <input matInput readonly value="{{ empDetails.empId }}" />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Name</mat-label>
+                    <input matInput readonly value="{{ empDetails.empName }}" />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Contact</mat-label>
+                    <input
+                      matInput
+                      readonly
+                      value="{{ empDetails.empContact }}"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input
+                      matInput
+                      readonly
+                      value="{{ empDetails.empEmail }}"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Desiganation</mat-label>
+                    <input
+                      matInput
+                      readonly
+                      value="{{ empDetails.desiganation }}"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Address</mat-label>
+                    <textarea
+                      matInput
+                      readonly
+                      value="{{ empDetails.empAddress }}"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-sm-6">
+          <mat-card>
+            <mat-card-header class="header_Card">
+              <mat-card-title>Project Details</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content class="dividerPad">
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Filter</mat-label>
+                  <input
+                    matInput
+                    (keyup)="applyFilter($event)"
+                    placeholder="Enter the text"
+                    #input
+                  />
+                </mat-form-field>
+              </div>
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                class="mat-elevation-z8 example-full-width"
+                matSort
+              >
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.position }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="projectName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Project Name
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.projectName }}
+                  </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="projectDescription">
+                  <th mat-header-cell *matHeaderCellDef>Project Description</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.projectDescription }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="projectManager">
+                  <th mat-header-cell *matHeaderCellDef>Project Manager</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.projectManager }}
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+              </table>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

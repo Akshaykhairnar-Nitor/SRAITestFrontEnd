@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.dividerPad{
+    margin-top: 1%;
+}
+
+.header_Card {
+    justify-content: center;
+  }
+  .example-full-width {
+    width: 100%;
+  }
+  .datePlacing{
+    justify-content: right;
+  }
+ 
+  .cardSpacing {
+    padding-top: 10px;
+    margin-top: 15px;
+  }
+  
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
